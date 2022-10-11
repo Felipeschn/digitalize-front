@@ -1,7 +1,7 @@
 {
-  "name": "digitalize-frontend",
-  "version": "1.0",
-  "description": "Digitalize TCC forget estorado",
+  "name": "Test",
+  "version": "1",
+  "description": "abc",
   "homepage": ".",
   "author": "Felipe Schneider (https://github.com/Felipeschn",
   "scripts": {
@@ -16,6 +16,7 @@
     "@coreui/icons-react": "^2.1.0",
     "@coreui/react": "^4.3.1",
     "@coreui/utils": "^1.3.1",
+    "axios": "^1.1.2",
     "classnames": "^2.3.1",
     "core-js": "^3.24.1",
     "prop-types": "^15.8.1",
@@ -28,14 +29,21 @@
     "simplebar-react": "^2.4.1"
   },
   "devDependencies": {
+    "eslint": "^8.25.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "react-scripts": "5.0.1",
     "sass": "^1.54.4"
   },
   "engines": {
     "node": ">=10",
     "npm": ">=6"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/Felipeschn/digitalize-front.git",
+  "license": "MIT"
 }
