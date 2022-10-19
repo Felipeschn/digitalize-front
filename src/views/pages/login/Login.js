@@ -108,16 +108,12 @@ function Login() {
                 className="text-white bg-primary"
                 style={{
                   display: 'flex',
-                  flexDirection: 'row',
                   justifyContent: 'center',
                   alignItems: 'center',
+                  textAlign: 'center',
                 }}
               >
-                <div
-                  style={{
-                    textAlign: 'center',
-                  }}
-                >
+                <div>
                   <h2>Cadastre-se</h2>
                   <CButton
                     onClick={() => navigate('/register')}

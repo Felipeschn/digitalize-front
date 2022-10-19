@@ -86,13 +86,14 @@ function Register() {
           <CCol md={9} lg={7} xl={6}>
             <CCard className="mx-2">
               <CCardBody className="p-3">
-                <h1>Register</h1>
+                <h1>Cadastro</h1>
                 {errMsg.length > 0 && (
                   <CAlert color="danger" ref={errRef} style={{ textAlign: 'center' }}>
                     {errMsg}
                   </CAlert>
                 )}
                 <CForm onSubmit={handleSubmit}>
+                  <p className="text-medium-emphasis">Crie sua conta</p>
                   <CRow xs={{ gutter: 3 }} className="mb-3">
                     <CCol md>
                       <CFormFloating>
@@ -174,7 +175,7 @@ function Register() {
                     </CCol>
                   </CRow>
                   <div className="d-grid">
-                    <CButton type="submit" color="success">
+                    <CButton type="submit" color="primary">
                       Criar conta
                     </CButton>
                   </div>
