@@ -1,9 +1,9 @@
-import './scss/style.scss'
-import React, { Suspense, useContext, useEffect } from 'react'
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
-import { AuthContext } from './context/AuthContext'
+import React, { Suspense } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import routes from './routes'
+import './scss/style.scss'
 import { AppSidebar, AppHeader } from './components/index'
+import RequireAuth from './utils/RequireAuth'
 
 // Contexts
 const AuthProvider = React.lazy(() => import('./context/AuthContext'))
@@ -18,19 +18,6 @@ const loading = (
     <div className="sk-spinner sk-spinner-pulse" />
   </div>
 )
-
-function RequireAuth({ children }) {
-  const navigate = useNavigate()
-  const { authenticated } = useContext(AuthContext)
-
-  useEffect(() => {
-    if (!authenticated) {
-      navigate('/login')
-    }
-  }, [])
-
-  return children
-}
 
 function App() {
   return (
