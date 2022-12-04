@@ -19,24 +19,24 @@ import api from 'src/api'
 
 import { AuthContext } from 'src/context/AuthContext'
 
-function EditNotationModal({ open, close }) {
+function CreateNotationModal({ open, handleClose, refreshList }) {
   const { currentUserId } = useContext(AuthContext)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [openEditModal, setOpenEditModal] = useState(open)
+  const [openCreateModal, setOpenCreateModal] = useState(open)
   const [errMsg, setErrMsg] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const payload = {
+      await api.post(`/docfile/${currentUserId}/create`, {
         title,
         description,
         docType: 'notation',
-      }
-      await api.post(`/docfile/${currentUserId}/create`, payload).then(() => {
-        setOpenEditModal(false)
       })
+      refreshList()
+      setOpenCreateModal(false)
+      handleClose()
     } catch (err) {
       if (!err?.response) {
         setErrMsg('Sem resposta do servidor')
@@ -59,10 +59,10 @@ function EditNotationModal({ open, close }) {
       scrollable
       backdrop="static"
       size="lg"
-      visible={openEditModal}
+      visible={openCreateModal}
       onClose={() => {
-        setOpenEditModal(false)
-        close()
+        setOpenCreateModal(false)
+        handleClose()
       }}
     >
       <CForm onSubmit={handleSubmit}>
@@ -114,4 +114,4 @@ function EditNotationModal({ open, close }) {
     </CModal>
   )
 }
-export default EditNotationModal
+export default CreateNotationModal

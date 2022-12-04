@@ -18,89 +18,91 @@ import { RiDeleteBinLine } from 'react-icons/ri'
 import api from 'src/api'
 import EditNotationModal from './EditNotationModal'
 
-function NotationDetails({ notation, expandedRow, refreshList }) {
+function NotationDetails({ notation, refreshList }) {
   const [openEditModal, setOpenEditModal] = useState(false)
-  const [openConfirmModal, setOpenConfirmModal] = useState(false)
-
-  const expanded = !!expandedRow.find((docFileId) => docFileId === notation.docFileId)
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   const handleClose = () => {
     setOpenEditModal(false)
-    setOpenConfirmModal(false)
-    refreshList()
+    setOpenDeleteModal(false)
   }
 
   const deleteNotation = async () => {
     await api.delete(`docfile/${notation.docFileId}/delete`)
-    handleClose()
+    refreshList()
   }
 
   return (
-    expanded && (
-      <>
-        <CContainer
-          style={{
-            position: 'absolute',
-            width: '1225px',
-            left: '680px',
-            top: '184.5px',
-          }}
-        >
-          <CCard>
-            <CHeader position="sticky" className="mb-0 rounded">
-              <CHeaderNav>
-                <CNavItem>
-                  <strong>{notation.title}</strong>
-                </CNavItem>
-              </CHeaderNav>
-              <CHeaderNav>
-                <CNavItem className="px-2">
-                  <BsPencil
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => setOpenEditModal(!openEditModal)}
-                    size={22}
-                  />
-                </CNavItem>
-                <CNavItem>
-                  <RiDeleteBinLine
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => setOpenConfirmModal(!openConfirmModal)}
-                    size={22}
-                  />
-                </CNavItem>
-              </CHeaderNav>
-            </CHeader>
-          </CCard>
-          <CCard style={{ minHeight: '30pc', overflow: 'auto' }}>
-            <CCardBody>
-              <CCardText>{notation.description}</CCardText>
-            </CCardBody>
-          </CCard>
-        </CContainer>
-        {openConfirmModal && (
-          <CModal
-            alignment="center"
-            scrollable
-            backdrop="static"
-            size="sm"
-            visible={openConfirmModal}
-            onClose={() => handleClose()}
-          >
-            <CModalHeader>
-              <CModalTitle>Deseja realmente apagar?</CModalTitle>
-            </CModalHeader>
-            <CModalFooter className="d-flex justify-content-center">
-              <CButton color="danger" onClick={() => deleteNotation()}>
-                APAGAR
-              </CButton>
-            </CModalFooter>
-          </CModal>
-        )}
-        {openEditModal && (
-          <EditNotationModal notation={notation} open={openEditModal} close={handleClose} />
-        )}
-      </>
-    )
+    <>
+      <CContainer
+        style={{
+          position: 'absolute',
+          width: '1225px',
+          left: '680px',
+          top: '119px',
+        }}
+      >
+        <CCard className="mb-2" style={{ height: '4.65rem' }}>
+          <CHeader className="rounded" style={{ height: '4.65rem' }}>
+            <CHeaderNav>
+              <CNavItem>
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">
+                    <strong>{notation.title}</strong>
+                  </h5>
+                </div>
+              </CNavItem>
+            </CHeaderNav>
+            <CHeaderNav>
+              <CNavItem className="px-2">
+                <BsPencil
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setOpenEditModal(true)}
+                  size={22}
+                />
+              </CNavItem>
+              <CNavItem>
+                <RiDeleteBinLine
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setOpenDeleteModal(true)}
+                  size={22}
+                />
+              </CNavItem>
+            </CHeaderNav>
+          </CHeader>
+        </CCard>
+        <CCard style={{ minHeight: '30pc', overflow: 'auto' }}>
+          <CCardBody>
+            <CCardText>{notation.description}</CCardText>
+          </CCardBody>
+        </CCard>
+      </CContainer>
+      <CModal
+        alignment="center"
+        scrollable
+        backdrop="static"
+        size="sm"
+        visible={openDeleteModal}
+        onClose={() => handleClose()}
+      >
+        <CModalHeader>
+          <CModalTitle>Deseja realmente apagar?</CModalTitle>
+        </CModalHeader>
+        <CModalFooter className="d-flex justify-content-center">
+          <CButton color="danger" onClick={() => deleteNotation()}>
+            APAGAR
+          </CButton>
+        </CModalFooter>
+      </CModal>
+      {openEditModal && (
+        <EditNotationModal
+          notation={notation}
+          open={openEditModal}
+          handleClose={handleClose}
+          refreshList={refreshList}
+        />
+      )}
+    </>
   )
 }
 

@@ -17,19 +17,19 @@ import {
 } from '@coreui/react'
 import api from 'src/api'
 
-function EditNotationModal({ notation, open, handleClose, refreshList }) {
-  const [title, setTitle] = useState(notation.title)
-  const [description, setDescription] = useState(notation.description)
+function EditDuplicateModal({ duplicate, open, handleClose, refreshList }) {
+  const [title, setTitle] = useState(duplicate.title)
+  const [description, setDescription] = useState(duplicate.description)
   const [openEditModal, setOpenEditModal] = useState(open)
   const [errMsg, setErrMsg] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await api.put(`/docfile/${notation.docFileId}/update`, {
+      await api.put(`/docfile/${duplicate.docFileId}/update`, {
         title,
         description,
-        docType: 'notation',
+        docType: 'duplicate',
       })
       refreshList()
       setOpenEditModal(false)
@@ -63,7 +63,7 @@ function EditNotationModal({ notation, open, handleClose, refreshList }) {
     >
       <CForm onSubmit={handleSubmit}>
         <CModalHeader>
-          <CModalTitle>Editar anotação</CModalTitle>
+          <CModalTitle>Editar segunda via</CModalTitle>
         </CModalHeader>
         {errMsg.length > 0 && (
           <CAlert color="danger" style={{ textAlign: 'center' }}>
@@ -110,4 +110,4 @@ function EditNotationModal({ notation, open, handleClose, refreshList }) {
     </CModal>
   )
 }
-export default EditNotationModal
+export default EditDuplicateModal
