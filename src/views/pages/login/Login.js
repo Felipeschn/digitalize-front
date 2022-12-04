@@ -122,7 +122,7 @@ function Login() {
                     active
                     tabIndex={-1}
                   >
-                    Register Now!
+                    Clique aqui
                   </CButton>
                 </div>
               </CCard>

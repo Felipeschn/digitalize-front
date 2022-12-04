@@ -27,7 +27,7 @@ function useAuth() {
     api.defaults.headers.common.Authorization = `Bearer ${token}`
     setAuthenticated(true)
     setCurrentUserId(userId)
-    navigate('/dashboard')
+    navigate('/')
   }
 
   const handleLogout = () => {
