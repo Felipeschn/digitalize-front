@@ -23,14 +23,12 @@ function CreateDuplicateModal({ open, handleClose, refreshList }) {
   const { currentUserId } = useContext(AuthContext)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [duplicateFile, setDuplicateFile] = useState('')
+  const [duplicateFile, setDuplicateFile] = useState({})
   const [openCreateModal, setOpenCreateModal] = useState(open)
   const [errMsg, setErrMsg] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log({ duplicateFile })
-
     try {
       await api.post(
         `/docfile/${currentUserId}/upload`,
@@ -79,7 +77,7 @@ function CreateDuplicateModal({ open, handleClose, refreshList }) {
     >
       <CForm onSubmit={handleSubmit}>
         <CModalHeader>
-          <CModalTitle>Anexar</CModalTitle>
+          <CModalTitle>Anexar 2ª Via</CModalTitle>
         </CModalHeader>
         {errMsg.length > 0 && (
           <CAlert color="danger" style={{ textAlign: 'center' }}>
