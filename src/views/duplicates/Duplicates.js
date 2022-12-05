@@ -33,7 +33,7 @@ function Duplicates() {
         params: { docType: 'duplicate' },
       })
       setUserDuplicates(data || [])
-      setExpandedRow([data[0].docFileId])
+      setExpandedRow([data[0]?.docFileId])
     }
     loadData()
     setIsLoading(false)

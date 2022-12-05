@@ -33,7 +33,7 @@ function Notations() {
         params: { docType: 'notation' },
       })
       setUserNotations(data || [])
-      setExpandedRow([data[0].docFileId])
+      setExpandedRow([data[0]?.docFileId])
     }
     loadData()
     setIsLoading(false)
