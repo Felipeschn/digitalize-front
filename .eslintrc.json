@@ -19,6 +19,9 @@
     "react/jsx-props-no-spreading": "off",
     "react/no-array-index-key": "off",
     "no-unused-expressions": "off",
-    "react/jsx-no-useless-fragment": "off"
+    "react/jsx-no-useless-fragment": "off",
+    "consistent-return": "off",
+    "import/prefer-default-export": "off",
+    "react/forbid-prop-types": "off"
   }
 }
