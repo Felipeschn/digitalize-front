@@ -94,7 +94,7 @@ function Generic() {
         <CContainer fluid>
           <CHeaderNav className="mb-2">
             <CNavItem>
-              <CButton color="success" onClick={() => setOpenCreateModal(true)}>
+              <CButton color="primary" onClick={() => setOpenCreateModal(true)}>
                 <IoMdAdd className="me-1 mb-1" />
                 Anexar outros
               </CButton>
