@@ -45,7 +45,9 @@ export function AppSidebarNav({ items }) {
         visible={location.pathname.startsWith(to)}
         {...rest}
       >
-        {item.items?.map((elem, idx) => (item.items ? navGroup(elem, idx) : navItem(elem, idx)))}
+        {item.items?.map((item, index) =>
+          item.items ? navGroup(item, index) : navItem(item, index),
+        )}
       </Component>
     )
   }

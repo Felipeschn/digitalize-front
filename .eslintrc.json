@@ -22,6 +22,7 @@
     "react/jsx-no-useless-fragment": "off",
     "consistent-return": "off",
     "import/prefer-default-export": "off",
-    "react/forbid-prop-types": "off"
+    "react/forbid-prop-types": "off",
+    "no-shadow": "off"
   }
 }
