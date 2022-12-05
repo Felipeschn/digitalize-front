@@ -5,6 +5,7 @@ const Duplicates = React.lazy(() => import('./views/duplicates/Duplicates'))
 const Receipts = React.lazy(() => import('./views/receipts/Receipts'))
 const Contracts = React.lazy(() => import('./views/contracts/Contracts'))
 const Notations = React.lazy(() => import('./views/notations/Notations'))
+const Generics = React.lazy(() => import('./views/generic/Generics'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home', element: Home },
@@ -12,7 +13,7 @@ const routes = [
   { path: '/comprovantes', exact: true, name: 'Comprovantes', element: Receipts },
   { path: '/contratos', exact: true, name: 'Contratos', element: Contracts },
   { path: '/anotacoes', exact: true, name: 'Anotações', element: Notations },
-  { path: '/outros', exact: true, name: 'Outros', element: Notations },
+  { path: '/outros', exact: true, name: 'Outros', element: Generics },
 ]
 
 export default routes
