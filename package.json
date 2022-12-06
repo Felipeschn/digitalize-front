@@ -36,8 +36,7 @@
     "sass": "^1.54.4"
   },
   "engines": {
-    "node": ">=10",
-    "npm": ">=6"
+    "yarn": "^1.22.19"
   },
   "main": "index.js",
   "repository": "https://github.com/Felipeschn/digitalize-front.git",
