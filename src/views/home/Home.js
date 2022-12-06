@@ -122,7 +122,7 @@ function Dashboard() {
               <FileViewer url={fileModal.bucketUrl} />
             </CModalBody>
           </CModal>
-          {userDuplicates.length && (
+          {userDuplicates.length ? (
             <CRow>
               <CCol xs>
                 <CCard className="mb-4">
@@ -163,8 +163,10 @@ function Dashboard() {
                 </CCard>
               </CCol>
             </CRow>
+          ) : (
+            ''
           )}
-          {userReceipts.length && (
+          {userReceipts.length ? (
             <CRow>
               <CCol xs>
                 <CCard className="mb-4">
@@ -205,8 +207,10 @@ function Dashboard() {
                 </CCard>
               </CCol>
             </CRow>
+          ) : (
+            ''
           )}
-          {userContracts.length && (
+          {userContracts.length ? (
             <CRow>
               <CCol xs>
                 <CCard className="mb-4">
@@ -247,8 +251,10 @@ function Dashboard() {
                 </CCard>
               </CCol>
             </CRow>
+          ) : (
+            ''
           )}
-          {userNotations.length && (
+          {userNotations.length ? (
             <CRow>
               <CCol xs>
                 <CCard className="mb-4">
@@ -289,8 +295,10 @@ function Dashboard() {
                 </CCard>
               </CCol>
             </CRow>
+          ) : (
+            ''
           )}
-          {userGenerics.length && (
+          {userGenerics.length ? (
             <CRow>
               <CCol xs>
                 <CCard className="mb-4">
@@ -331,6 +339,8 @@ function Dashboard() {
                 </CCard>
               </CCol>
             </CRow>
+          ) : (
+            ''
           )}
         </>
       )}
