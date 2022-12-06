@@ -23,6 +23,7 @@
     "consistent-return": "off",
     "import/prefer-default-export": "off",
     "react/forbid-prop-types": "off",
-    "no-shadow": "off"
+    "no-shadow": "off",
+    "default-param-last": "off"
   }
 }
