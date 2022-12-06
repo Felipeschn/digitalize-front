@@ -1,5 +1,5 @@
 {
-  "name": "Test",
+  "name": "digitalize-front",
   "version": "1",
   "description": "abc",
   "homepage": ".",
@@ -34,9 +34,6 @@
   "devDependencies": {
     "react-scripts": "5.0.1",
     "sass": "^1.54.4"
-  },
-  "engines": {
-    "yarn": "^1.22.19"
   },
   "main": "index.js",
   "repository": "https://github.com/Felipeschn/digitalize-front.git",
