@@ -119,7 +119,7 @@ function Dashboard() {
             </CModalHeader>
             <CModalBody>
               <CCardText>{fileModal.description}</CCardText>
-              <FileViewer url={fileModal.bucketUrl} />
+              {fileModal.bucketUrl && <FileViewer url={fileModal.bucketUrl} />}
             </CModalBody>
           </CModal>
           {userDuplicates.length ? (
@@ -135,7 +135,7 @@ function Dashboard() {
                         }
                         return (
                           <>
-                            <CCol sm={2}>
+                            <CCol sm={2} key={index}>
                               <CCard
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => {
@@ -179,7 +179,7 @@ function Dashboard() {
                         }
                         return (
                           <>
-                            <CCol sm={2}>
+                            <CCol sm={2} key={index}>
                               <CCard
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => {
@@ -223,7 +223,7 @@ function Dashboard() {
                         }
                         return (
                           <>
-                            <CCol sm={2}>
+                            <CCol sm={2} key={index}>
                               <CCard
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => {
@@ -267,7 +267,7 @@ function Dashboard() {
                         }
                         return (
                           <>
-                            <CCol sm={2}>
+                            <CCol sm={2} key={index}>
                               <CCard
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => {
@@ -311,7 +311,7 @@ function Dashboard() {
                         }
                         return (
                           <>
-                            <CCol sm={2}>
+                            <CCol sm={2} key={index}>
                               <CCard
                                 style={{ cursor: 'pointer' }}
                                 onClick={() => {
