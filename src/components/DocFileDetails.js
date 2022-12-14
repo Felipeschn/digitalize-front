@@ -7,20 +7,13 @@ import {
   CNavItem,
   CCardBody,
   CCardText,
-  CButton,
-  CModalFooter,
-  CModal,
-  CModalHeader,
-  CModalTitle,
 } from '@coreui/react'
 import { BsPencil } from 'react-icons/bs'
 import { RiDeleteBinLine } from 'react-icons/ri'
-import api from 'src/api'
 import FileViewer from 'src/components/FileViewer'
-import EditDuplicateModal from './EditDuplicateModal'
+import { DocFileEdit, DocFileDelete } from 'src/components/index'
 
-function DuplicateDetails({ duplicate, refreshList }) {
-  console.log(duplicate)
+function DocFileDetails({ data, refreshList }) {
   const [openEditModal, setOpenEditModal] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
@@ -29,28 +22,16 @@ function DuplicateDetails({ duplicate, refreshList }) {
     setOpenDeleteModal(false)
   }
 
-  const deleteNotation = async () => {
-    await api.delete(`docfile/${duplicate.docFileId}/delete`)
-    refreshList()
-  }
-
   return (
     <>
-      <CContainer
-        style={{
-          position: 'absolute',
-          width: '1225px',
-          left: '680px',
-          top: '119px',
-        }}
-      >
+      <CContainer>
         <CCard className="mb-2" style={{ height: '4.65rem' }}>
           <CHeader className="rounded" style={{ height: '4.65rem' }}>
             <CHeaderNav>
               <CNavItem>
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">
-                    <strong>{duplicate.title}</strong>
+                    <strong>{data?.title}</strong>
                   </h5>
                 </div>
               </CNavItem>
@@ -75,32 +56,23 @@ function DuplicateDetails({ duplicate, refreshList }) {
         </CCard>
         <CCard style={{ minHeight: '30pc', overflow: 'auto' }}>
           <CCardBody>
-            <CCardText>{duplicate.description}</CCardText>
-            <FileViewer url={duplicate.bucketUrl} />
+            <CCardText>{data?.description}</CCardText>
+            {data.bucketUrl && <FileViewer url={data.bucketUrl} />}
           </CCardBody>
         </CCard>
       </CContainer>
-      <CModal
-        alignment="center"
-        scrollable
-        backdrop="static"
-        size="sm"
-        visible={openDeleteModal}
-        onClose={() => handleClose()}
-      >
-        <CModalHeader>
-          <CModalTitle>Deseja realmente apagar?</CModalTitle>
-        </CModalHeader>
-        <CModalFooter className="d-flex justify-content-center">
-          <CButton color="danger" onClick={() => deleteNotation()}>
-            APAGAR
-          </CButton>
-        </CModalFooter>
-      </CModal>
       {openEditModal && (
-        <EditDuplicateModal
+        <DocFileEdit
           open={openEditModal}
-          duplicate={duplicate}
+          data={data}
+          handleClose={handleClose}
+          refreshList={refreshList}
+        />
+      )}
+      {openDeleteModal && (
+        <DocFileDelete
+          open={openDeleteModal}
+          data={data}
           handleClose={handleClose}
           refreshList={refreshList}
         />
@@ -109,4 +81,4 @@ function DuplicateDetails({ duplicate, refreshList }) {
   )
 }
 
-export default DuplicateDetails
+export default DocFileDetails

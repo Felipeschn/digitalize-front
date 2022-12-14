@@ -6,7 +6,7 @@ import { AuthContext } from 'src/context/AuthContext'
 
 import { DocFileList, DocFileCreate } from 'src/components/index'
 
-function Generics() {
+function Receipts() {
   const { currentUserId } = useContext(AuthContext)
   const [fetchData, setFetchData] = useState(false)
   const [userDuplicates, setUserDuplicates] = useState([])
@@ -18,7 +18,7 @@ function Generics() {
     async function loadData() {
       setIsLoading(true)
       const { data } = await api.get(`user-docfile/${currentUserId}`, {
-        params: { docType: 'generic' },
+        params: { docType: 'receipt' },
       })
       setUserDuplicates(data)
     }
@@ -52,7 +52,7 @@ function Generics() {
             <CNavItem>
               <CButton color="primary" onClick={() => setOpenCreateModal(true)}>
                 <IoMdAdd className="me-1 mb-1" />
-                Anexar outros
+                Anexar comprovante
               </CButton>
             </CNavItem>
           </CHeaderNav>
@@ -60,7 +60,7 @@ function Generics() {
           {openCreateModal && (
             <DocFileCreate
               open={openCreateModal}
-              docType="generic"
+              docType="receipt"
               handleClose={handleClose}
               refreshList={refreshList}
             />
@@ -70,4 +70,4 @@ function Generics() {
     </>
   )
 }
-export default Generics
+export default Receipts

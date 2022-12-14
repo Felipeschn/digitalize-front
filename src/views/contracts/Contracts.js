@@ -1,28 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react'
 import api from 'src/api'
-import {
-  CHeaderNav,
-  CNavItem,
-  CContainer,
-  CListGroup,
-  CListGroupItem,
-  CButton,
-  CSpinner,
-} from '@coreui/react'
+import { CHeaderNav, CNavItem, CContainer, CButton, CSpinner } from '@coreui/react'
 import { IoMdAdd } from 'react-icons/io'
 import { AuthContext } from 'src/context/AuthContext'
-import moment from 'moment'
-import ContractDetails from './ContractDetails'
-import CreateContractModal from './CreateContractModal'
-import 'moment/locale/pt-br'
 
-moment.locale('pt-br')
+import { DocFileList, DocFileCreate } from 'src/components/index'
 
 function Contracts() {
   const { currentUserId } = useContext(AuthContext)
   const [fetchData, setFetchData] = useState(false)
-  const [userContracts, setUserContracts] = useState([])
-  const [expandedRow, setExpandedRow] = useState([])
+  const [userDuplicates, setUserDuplicates] = useState([])
+
   const [openCreateModal, setOpenCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -32,8 +20,7 @@ function Contracts() {
       const { data } = await api.get(`user-docfile/${currentUserId}`, {
         params: { docType: 'contract' },
       })
-      setUserContracts(data || [])
-      setExpandedRow([data[0]?.docFileId])
+      setUserDuplicates(data)
     }
     loadData()
     setIsLoading(false)
@@ -45,39 +32,6 @@ function Contracts() {
 
   const handleClose = () => {
     setOpenCreateModal(false)
-  }
-
-  const getRow = (contract) => {
-    const expanded = !!expandedRow.find((docFileId) => docFileId === contract.docFileId)
-    return (
-      <>
-        <CListGroup key={contract.docFileId}>
-          <CListGroupItem
-            className="mb-2"
-            key={`${contract.docFileId}-div`}
-            component="a"
-            active={expanded}
-            style={{ width: '25rem', cursor: 'pointer' }}
-            onClick={() => setExpandedRow([contract.docFileId])}
-          >
-            <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">
-                {contract.title.length > 23
-                  ? `${contract.title.substr(0, 23)} ...`
-                  : contract.title}
-              </h5>
-              <small>{moment(contract.createdAt).startOf().fromNow(true)} atrás</small>
-            </div>
-            <p className="mb-1">
-              {contract.description.length > 27
-                ? `${contract.description.substr(0, 30)} ...`
-                : `${contract.description.substr(0, 30)}`}
-            </p>
-          </CListGroupItem>
-        </CListGroup>
-        {expanded && <ContractDetails contract={contract} refreshList={refreshList} />}
-      </>
-    )
   }
 
   return (
@@ -102,10 +56,11 @@ function Contracts() {
               </CButton>
             </CNavItem>
           </CHeaderNav>
-          {userContracts.map((contract) => getRow(contract))}
+          <DocFileList data={userDuplicates} refreshList={refreshList} />
           {openCreateModal && (
-            <CreateContractModal
+            <DocFileCreate
               open={openCreateModal}
+              docType="contract"
               handleClose={handleClose}
               refreshList={refreshList}
             />

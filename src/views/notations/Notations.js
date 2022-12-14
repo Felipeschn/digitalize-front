@@ -1,28 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react'
 import api from 'src/api'
-import {
-  CHeaderNav,
-  CNavItem,
-  CContainer,
-  CListGroup,
-  CListGroupItem,
-  CButton,
-  CSpinner,
-} from '@coreui/react'
+import { CHeaderNav, CNavItem, CContainer, CButton, CSpinner } from '@coreui/react'
 import { IoMdAdd } from 'react-icons/io'
 import { AuthContext } from 'src/context/AuthContext'
-import moment from 'moment'
-import NotationDetails from './NotationDetail'
-import CreateNotationModal from './CreateNotationModal'
-import 'moment/locale/pt-br'
 
-moment.locale('pt-br')
+import { DocFileList, DocFileCreate } from 'src/components/index'
 
 function Notations() {
   const { currentUserId } = useContext(AuthContext)
   const [fetchData, setFetchData] = useState(false)
   const [userNotations, setUserNotations] = useState([])
-  const [expandedRow, setExpandedRow] = useState([])
+
   const [openCreateModal, setOpenCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -32,8 +20,7 @@ function Notations() {
       const { data } = await api.get(`user-docfile/${currentUserId}`, {
         params: { docType: 'notation' },
       })
-      setUserNotations(data || [])
-      setExpandedRow([data[0]?.docFileId])
+      setUserNotations(data)
     }
     loadData()
     setIsLoading(false)
@@ -45,40 +32,6 @@ function Notations() {
 
   const handleClose = () => {
     setOpenCreateModal(false)
-  }
-
-  const getNotations = (notation) => {
-    const expanded = !!expandedRow.find((docFileId) => docFileId === notation.docFileId)
-    return (
-      <>
-        <CListGroup key={notation.docFileId}>
-          <CListGroupItem
-            className="mb-2"
-            key={`${notation.docFileId}-div`}
-            component="a"
-            active={expanded}
-            style={{ width: '25rem', cursor: 'pointer' }}
-            onClick={() => setExpandedRow([notation.docFileId])}
-          >
-            <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">
-                {notation.title.length > 23
-                  ? `${notation.title.substr(0, 23)} ...`
-                  : notation.title}
-              </h5>
-              <small>{moment(notation.createdAt).startOf().fromNow(true)} atrás</small>
-            </div>
-            <p className="mb-1">
-              {notation.description.length > 27
-                ? `${notation.description.substr(0, 30)} ...`
-                : notation.description}
-            </p>
-          </CListGroupItem>
-        </CListGroup>
-        {/* INFO DETAILS */}
-        {expanded && <NotationDetails notation={notation} refreshList={refreshList} />}
-      </>
-    )
   }
 
   return (
@@ -99,14 +52,15 @@ function Notations() {
             <CNavItem>
               <CButton color="primary" onClick={() => setOpenCreateModal(true)}>
                 <IoMdAdd className="me-1 mb-1" />
-                Adicionar anotação
+                Anexar Anotação
               </CButton>
             </CNavItem>
           </CHeaderNav>
-          {userNotations.map((notation) => getNotations(notation))}
+          <DocFileList data={userNotations} refreshList={refreshList} />
           {openCreateModal && (
-            <CreateNotationModal
+            <DocFileCreate
               open={openCreateModal}
+              docType="notation"
               handleClose={handleClose}
               refreshList={refreshList}
             />

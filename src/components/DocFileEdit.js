@@ -15,26 +15,29 @@ import {
   CModalTitle,
   CAlert,
 } from '@coreui/react'
+import { NormalizeDocFile } from 'src/utils/NormalizeDocFile'
 import api from 'src/api'
 
-function EditDuplicateModal({ duplicate, open, handleClose, refreshList }) {
-  const [title, setTitle] = useState(duplicate.title)
-  const [description, setDescription] = useState(duplicate.description)
+function DocFileEdit({ data, open, handleClose, refreshList }) {
+  const [title, setTitle] = useState(data.title)
+  const [description, setDescription] = useState(data.description)
+  const [lenghtDescription] = useState(data.docType === 'notation' ? 4090 : 512)
   const [openEditModal, setOpenEditModal] = useState(open)
   const [errMsg, setErrMsg] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await api.put(`/docfile/${duplicate.docFileId}/update`, {
+      await api.put(`/docfile/${data.docFileId}/update`, {
         title,
         description,
-        docType: 'duplicate',
+        docType: data.docType,
       })
       refreshList()
       setOpenEditModal(false)
       handleClose()
     } catch (err) {
+      console.log(err)
       if (!err?.response) {
         setErrMsg('Sem resposta do servidor')
       } else {
@@ -44,7 +47,7 @@ function EditDuplicateModal({ duplicate, open, handleClose, refreshList }) {
   }
   const setFormattedContent = useCallback(
     (text) => {
-      setDescription(text.slice(0, 4090))
+      setDescription(text.slice(0, lenghtDescription))
     },
     [setDescription],
   )
@@ -63,7 +66,7 @@ function EditDuplicateModal({ duplicate, open, handleClose, refreshList }) {
     >
       <CForm onSubmit={handleSubmit}>
         <CModalHeader>
-          <CModalTitle>Editar segunda via</CModalTitle>
+          <CModalTitle>Editar {NormalizeDocFile(data.docType)}</CModalTitle>
         </CModalHeader>
         {errMsg.length > 0 && (
           <CAlert color="danger" style={{ textAlign: 'center' }}>
@@ -81,7 +84,9 @@ function EditDuplicateModal({ duplicate, open, handleClose, refreshList }) {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-                <CFormLabel htmlFor="title">Título</CFormLabel>
+                <CFormLabel htmlFor="title">
+                  Título<span style={{ color: 'red' }}>*</span>
+                </CFormLabel>
               </CFormFloating>
             </CCol>
           </CRow>
@@ -95,7 +100,9 @@ function EditDuplicateModal({ duplicate, open, handleClose, refreshList }) {
                   style={{ height: '300px' }}
                   onChange={(e) => setFormattedContent(e.target.value)}
                 />
-                <p style={{ textAlign: 'right' }}>{description.length}/4090</p>
+                <p style={{ textAlign: 'right' }}>
+                  {description.length}/{lenghtDescription}
+                </p>
                 <CFormLabel htmlFor="description">Descrição</CFormLabel>
               </CFormFloating>
             </CCol>
@@ -110,4 +117,4 @@ function EditDuplicateModal({ duplicate, open, handleClose, refreshList }) {
     </CModal>
   )
 }
-export default EditDuplicateModal
+export default DocFileEdit

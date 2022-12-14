@@ -18,32 +18,41 @@ import {
 import api from 'src/api'
 
 import { AuthContext } from 'src/context/AuthContext'
+import { NormalizeDocFile } from 'src/utils/NormalizeDocFile'
 
-function CreateReceiptModal({ open, handleClose, refreshList }) {
+function DocFileCreate({ open, docType, handleClose, refreshList }) {
   const { currentUserId } = useContext(AuthContext)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [receiptFile, setReceiptFile] = useState({})
+  const [duplicateFile, setDuplicateFile] = useState({})
   const [openCreateModal, setOpenCreateModal] = useState(open)
   const [errMsg, setErrMsg] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await api.post(
-        `/docfile/${currentUserId}/upload`,
-        {
+      if (docType === 'notation') {
+        await api.post(`/docfile/${currentUserId}/create`, {
           title,
           description,
-          docType: 'receipt',
-          file: receiptFile,
-        },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
+          docType,
+        })
+      } else {
+        await api.post(
+          `/docfile/${currentUserId}/upload`,
+          {
+            title,
+            description,
+            docType,
+            file: duplicateFile,
           },
-        },
-      )
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        )
+      }
       refreshList()
       setOpenCreateModal(false)
       handleClose()
@@ -77,7 +86,7 @@ function CreateReceiptModal({ open, handleClose, refreshList }) {
     >
       <CForm onSubmit={handleSubmit}>
         <CModalHeader>
-          <CModalTitle>Anexar comprovante</CModalTitle>
+          <CModalTitle>Anexar {NormalizeDocFile(docType)}</CModalTitle>
         </CModalHeader>
         {errMsg.length > 0 && (
           <CAlert color="danger" style={{ textAlign: 'center' }}>
@@ -116,18 +125,20 @@ function CreateReceiptModal({ open, handleClose, refreshList }) {
               </CFormFloating>
             </CCol>
           </CRow>
-          <CRow xs={{ gutter: 3 }} className="mb-3">
-            <CCol md className="mt-0">
-              <CFormLabel htmlFor="formFile">Arquivo</CFormLabel>
-              <CFormInput
-                type="file"
-                required
-                id="formFile"
-                accept="image/jpeg, image/pjpeg, image/png, application/pdf"
-                onChange={(e) => setReceiptFile(e.target.files[0])}
-              />
-            </CCol>
-          </CRow>
+          {docType !== 'notation' && (
+            <CRow xs={{ gutter: 3 }} className="mb-3">
+              <CCol md className="mt-0">
+                <CFormLabel htmlFor="formFile">Arquivo</CFormLabel>
+                <CFormInput
+                  type="file"
+                  required
+                  id="formFile"
+                  accept="image/jpeg, image/pjpeg, image/png, application/pdf"
+                  onChange={(e) => setDuplicateFile(e.target.files[0])}
+                />
+              </CCol>
+            </CRow>
+          )}
         </CModalBody>
         <CModalFooter>
           <CButton style={{ color: 'white' }} type="submit" color="dark">
@@ -138,4 +149,4 @@ function CreateReceiptModal({ open, handleClose, refreshList }) {
     </CModal>
   )
 }
-export default CreateReceiptModal
+export default DocFileCreate

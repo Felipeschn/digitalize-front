@@ -2,7 +2,7 @@ import React from 'react'
 
 const Home = React.lazy(() => import('./views/home/Home'))
 const Duplicates = React.lazy(() => import('./views/duplicates/Duplicates'))
-const Receipts = React.lazy(() => import('./views/receipts/Receipts'))
+const Receipts = React.lazy(() => import('./views/recibos/Receipts'))
 const Contracts = React.lazy(() => import('./views/contracts/Contracts'))
 const Notations = React.lazy(() => import('./views/notations/Notations'))
 const Generics = React.lazy(() => import('./views/generic/Generics'))
