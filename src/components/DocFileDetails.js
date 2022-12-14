@@ -1,3 +1,5 @@
+import Axios from 'axios'
+import fileDownload from 'js-file-download'
 import React, { useState } from 'react'
 import {
   CContainer,
@@ -8,14 +10,22 @@ import {
   CCardBody,
   CCardText,
 } from '@coreui/react'
-import { BsPencil } from 'react-icons/bs'
+
+import { BsPencil, BsCloudDownload } from 'react-icons/bs'
 import { RiDeleteBinLine } from 'react-icons/ri'
-import FileViewer from 'src/components/FileViewer'
-import { DocFileEdit, DocFileDelete } from 'src/components/index'
+import { DocFileEdit, DocFileDelete, FileViewer } from 'src/components/index'
 
 function DocFileDetails({ data, refreshList }) {
   const [openEditModal, setOpenEditModal] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
+
+  const handleDownload = (url) => {
+    Axios.get(url, {
+      responseType: 'blob',
+    }).then((res) => {
+      fileDownload(res.data, url.split('/')[3])
+    })
+  }
 
   const handleClose = () => {
     setOpenEditModal(false)
@@ -37,6 +47,15 @@ function DocFileDetails({ data, refreshList }) {
               </CNavItem>
             </CHeaderNav>
             <CHeaderNav>
+              {data.bucketUrl && (
+                <CNavItem className="px-2">
+                  <BsCloudDownload
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => handleDownload(data.bucketUrl)}
+                    size={22}
+                  />
+                </CNavItem>
+              )}
               <CNavItem className="px-2">
                 <BsPencil
                   style={{ cursor: 'pointer' }}
